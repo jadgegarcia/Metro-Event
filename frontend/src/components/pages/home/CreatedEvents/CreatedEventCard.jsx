@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/joy/Avatar';
-import AvatarGroup from '@mui/joy/AvatarGroup';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
@@ -10,7 +9,7 @@ import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 
-const EventCard = () => {
+const CreatedEventCard = ({ handleClickOpen }) => {
   return (
     <Card
       variant="outlined"
@@ -29,33 +28,29 @@ const EventCard = () => {
         }}
       >
         <Avatar src="./josiah.png" size="lg" />
-        <AvatarGroup size="sm" sx={{ '--Avatar-size': '28px' }}>
-          <Avatar src="./noel.png" />
-          <Avatar src="./elroi.png" />
-          <Avatar src="./elroi.png" />
-          <Avatar>+4K</Avatar>
-        </AvatarGroup>
       </Box>
       <CardContent>
-        <Typography level="title-lg">NYC Coders</Typography>
+        <Typography level="title-lg">NYC Event</Typography>
         <Typography level="body-sm">
           We are a community of developers prepping for coding interviews,
           participate, chat with others and get better at interviewing.
+          Sponsored by Zabdiel.
         </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
         <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
           <FavoriteBorder />
+          69
         </IconButton>
         <Button variant="outlined" color="neutral">
           View
         </Button>
-        <Button variant="solid" color="primary">
-          Join
+        <Button variant="outlined" color="neutral" onClick={handleClickOpen}>
+          Cancel
         </Button>
       </CardActions>
     </Card>
   );
 }
 
-export default EventCard;
+export default CreatedEventCard;
