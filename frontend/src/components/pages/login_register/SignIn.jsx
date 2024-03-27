@@ -14,7 +14,7 @@ import { useState,useEffect } from 'react';
 
 
 //REACT ROUTER
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function Copyright(props) {
   return (
@@ -38,6 +38,7 @@ export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("")
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(loginStatus);
@@ -47,22 +48,26 @@ export default function SignIn() {
 
   const login = (event) => {
     event.preventDefault();
+    
     axios.post("http://localhost:8081/login", {
       username: username,
       password: password,
-    }).then((response) => {
+    })
+    .then((response) => {
       if(response.data.message){
         setLoginStatus(response.data.message);
         console.log(loginStatus);
       }else{
+        //diri ang success 
         setLoginStatus(response.data[0].username);
+        navigate('/', response.data[0].username);
       }
     })
+    .catch((error) => {
+      alert("Wrong username or password");
+      console.error("Error:", error.message);
+    })
   };
-
-
-
-
 
   return (
     <ThemeProvider theme={defaultTheme}>
