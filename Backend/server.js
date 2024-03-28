@@ -89,8 +89,6 @@ app.post('/api/upvoteEvent', (req, res) => {
 // Signup endpoint
 app.post("/signup", (req, res) => {
     const firstname = req.body.firstname;
-    const lastname = req.body.lastname;
-    const email = req.body.email;
     const password = req.body.password;
 
     db.query("CALL registerUser(?, ?)", [firstname, password],
@@ -108,6 +106,25 @@ app.post("/signup", (req, res) => {
             }
         }
     );
+});
+
+//Endpoint for creating events
+app.post("/create_event", (req, res) => {
+    const username = req.body.username;
+    const eventname = req.body.eventname;
+    const eventlocation = req.body.eventlocation;
+    const eventdate = req.body.eventdate;
+
+    db.query("CALL createEvent(?, ?, ?, ?)", [username, eventname, eventlocation, eventdate],
+        (err, result) => {
+            if(err){
+                console.error("Error creating event:", err);
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                console.log("Event created");
+                res.json(result);
+            }
+        });
 });
 
 //Endpoint for fetching notifications
