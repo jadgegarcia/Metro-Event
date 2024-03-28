@@ -60,7 +60,7 @@ export default function SignIn() {
       }else{
         //diri ang success 
         setLoginStatus(response.data[0].username);
-        navigate('/', response.data[0].username);
+        navigate('/', response.data[0].user_type);
       }
     })
     .catch((error) => {
