@@ -110,6 +110,22 @@ app.post("/signup", (req, res) => {
     );
 });
 
+//Endpoint for fetching notifications
+app.get('/api/notifications/:username', (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+
+    db.query("SELECT * FROM notification WHERE username = ?", [username], (error, results) => {
+        if(error){
+            console.error('Error fetching notifs:', error);
+            res.status(500).json({error: 'Error fetching notifs'});
+            return;
+        }
+        const notifications = results;
+        res.json(notifications);
+    });
+});
+
 app.listen(8081, () => {
     console.log("Server listening on port 8081");
 });
