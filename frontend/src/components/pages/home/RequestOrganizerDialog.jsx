@@ -22,7 +22,7 @@ export default function EventFormDialog() {
   return (
     <React.Fragment>
       <Link onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
-        Create Event
+        Request to be an Organizer
       </Link>
       <Dialog
         open={open}
@@ -39,56 +39,15 @@ export default function EventFormDialog() {
           },
         }}
       >
-        <DialogTitle>Create Event</DialogTitle>
+        <DialogTitle>Send Request</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To create a new event, please fill out the following information.
+            Would you like to send a request to be an organizer?
           </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="eventName"
-            name="eventName"
-            label="Event Name"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="eventType"
-            name="eventType"
-            label="Event Type"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="eventLocation"
-            name="eventLocation"
-            label="Event Location"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="eventDate"
-            name="eventDate"
-            label="Event Date"
-            fullWidth
-            variant="standard"
-          />
-          {/* Add more form fields here as needed */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Create</Button>
+          <Button onClick={handleClose}>Back</Button>
+          <Button type="submit">Request</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

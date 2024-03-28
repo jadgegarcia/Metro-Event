@@ -34,6 +34,58 @@ app.post("/login", (req, res) => {
     );
 });
 
+// Get events endpoint
+app.get('/api/events', (req, res) => {
+    // Call the listEvents() procedure using the db connection
+    db.query('CALL listEvents()', (error, results) => {
+      if (error) {
+        console.error('Error executing stored procedure:', error);
+        res.status(500).json({ error: 'Error executing stored procedure' });
+        return;
+      }
+      
+      // Assuming the procedure returns a result set with event data
+      const events = results[0];
+  
+      res.json(events);
+    });
+});
+
+app.get('/api/upvotecount', (req, res) => {
+    const eventId = req.query.event_id;
+    // Call the countUpvotes() stored procedure with the event ID
+    db.query('CALL countUpvotes(?)', [eventId], (error, results) => {
+        if (error) {
+            console.error('Error executing stored procedure:', error);
+            res.status(500).json({ error: 'Error executing stored procedure' });
+            return;
+        }
+
+        // Assuming the stored procedure returns a result set with upvote count
+        const upvoteCount = results[0][0].upvotes;
+
+        res.json({ upvotes: upvoteCount });
+    });
+});
+
+app.post('/api/upvoteEvent', (req, res) => {
+    const eventId = req.body.event_id;
+    const username = req.body.username;
+    // Call the upvoteEvent stored procedure with the event ID and username
+    db.query('CALL upvoteEvent(?, ?)', [eventId, username], (error, results) => {
+        if (error) {
+            console.error('Error executing stored procedure:', error);
+            res.status(500).json({ error: 'Error executing stored procedure' });
+            return;
+        }
+
+        // Assuming the stored procedure returns a message indicating success or error
+        const message = results[0][0].Message;
+
+        res.json({ message: message });
+    });
+});
+
 // Signup endpoint
 app.post("/signup", (req, res) => {
     const firstname = req.body.firstname;
