@@ -17,7 +17,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,10 +64,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function DashBoardAppbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+ 
+
+  const location = useLocation();
+
+  const [user, setUser] = useState(location.state?.username || '');
+  const [auth, setIsAuth] = useState(location.state?.isAuth || false);
 
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const navigate = useNavigate();
+
+
+  
+  
+  useEffect(() => {
+    console.log(user + " => " + auth);
+    if (!auth || user === "") {
+      navigate("/");
+    }
+  }, [auth, user]);
+  
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -198,7 +218,7 @@ export default function DashBoardAppbar() {
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
-              color="inherit"
+              color="inherit" 
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
@@ -232,6 +252,9 @@ export default function DashBoardAppbar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      <main>
+        <Outlet/>
+      </main>
     </Box>
   );
 }

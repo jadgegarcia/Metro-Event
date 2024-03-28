@@ -42,9 +42,6 @@ const CreatedEventCard = ({ handleClickOpen }) => {
           <FavoriteBorder />
           69
         </IconButton>
-        <Button variant="outlined" color="neutral">
-          View
-        </Button>
         <Button variant="outlined" color="neutral" onClick={handleClickOpen}>
           Cancel
         </Button>

@@ -37,11 +37,13 @@ export default function SignIn() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginStatus, setLoginStatus] = useState("")
+  const [loginStatus, setLoginStatus] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(loginStatus);
+    if(loginStatus === null){
+      console.log(loginStatus);
+    }
   }, [loginStatus]);
 
 
@@ -56,11 +58,17 @@ export default function SignIn() {
     .then((response) => {
       if(response.data.message){
         setLoginStatus(response.data.message);
+        setPassword("");
+        setUsername("");
         console.log(loginStatus);
       }else{
         //diri ang success 
         setLoginStatus(response.data[0].username);
-        navigate('/', response.data[0].username);
+        navigate('dashboard', {state: {
+          username: username,
+          isAuth: true
+        }});
+        return;
       }
     })
     .catch((error) => {

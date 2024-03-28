@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import EventList from './EventList';
 import EventDetail from './EventDetail';
 
-const EventContainer = () => {
+export default function EventContainer() {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -15,5 +15,3 @@ const EventContainer = () => {
     </React.Fragment>
   );
 }
-
-export default EventContainer;

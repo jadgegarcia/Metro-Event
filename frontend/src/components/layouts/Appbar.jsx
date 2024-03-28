@@ -41,7 +41,7 @@ export default function Appbar() {
                 </Typography> */}
                 <NavLink to="/">Login</NavLink>
                 <NavLink to="register">Register</NavLink>
-                <NavLink to="events">List</NavLink>
+                <NavLink to="event">List</NavLink>
                 </Toolbar>
             </AppBar>
             </Box>

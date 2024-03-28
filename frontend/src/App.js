@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-  ProtectedRoute
+  Routes
 } from 'react-router-dom';
 import Appbar from './components/layouts/Appbar';
 import SignUp from './components/pages/login_register/SignUp';
@@ -16,20 +16,21 @@ import DashBoardAppbar from './components/layouts/DashboardAppbar';
 
 
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
        
-        <Route>
-            <Route  path="/" element={<Appbar/>}>
-                <Route index element={<SignIn/>}/>
-                <Route path="register" element={<SignUp/>}/>
-                <Route path="events" element={<EventContainer/>}/>
-
-            </Route>
-            <Route path='dashboard' element={<DashBoardAppbar  user={user}  />}>
-              
-            </Route>
+    <Route>
+        <Route path="/" element={<Appbar/>}>
+          <Route index element={<SignIn/>}/>
+          <Route path="register" element={<SignUp/>}/>
+          <Route path="event" element={<EventContainer />} />
         </Route>
+        <Route path="dashboard" element={<DashBoardAppbar/>}>
+          <Route path element={<EventContainer />} />
+        </Route>
+    </Route>
+  
   )
 )
 

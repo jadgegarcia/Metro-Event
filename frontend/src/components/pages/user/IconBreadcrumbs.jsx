@@ -6,6 +6,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 // import GrainIcon from '@mui/icons-material/Grain';
 import EventFormDialog from '../home/EventFormDialog';
+import RequestOrganizerDialog from '../home/RequestOrganizerDialog';
 
 function handleClick(event) {
   event.preventDefault();
@@ -32,7 +33,7 @@ export default function IconBreadcrumbs() {
           href="/material-ui/getting-started/installation/"
         >
           <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-          Request to be an Organizer
+          <RequestOrganizerDialog />
         </Link>
         <Link
           underline="hover"

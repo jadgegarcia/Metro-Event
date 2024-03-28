@@ -42,9 +42,6 @@ const JoinedEventCard = () => {
           <FavoriteBorder />
           69
         </IconButton>
-        <Button variant="outlined" color="neutral">
-          View
-        </Button>
       </CardActions>
     </Card>
   );
