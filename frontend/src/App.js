@@ -37,6 +37,7 @@ const router = createBrowserRouter(
           <Route path="event" element={<EventContainer />} />
         </Route>
         <Route path="dashboard" element={<DashBoardAppbar/>}>
+<<<<<<< HEAD
           <Route element={<IconBreadcrumbs />}>
 
             <Route index element={<EventList option={1}/> }/>
@@ -46,6 +47,9 @@ const router = createBrowserRouter(
             {/* <Route path=  element={}/> */}
             
           </Route>
+=======
+          <Route index element={<EventContainer />} />
+>>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
         </Route>
     </Route>
   

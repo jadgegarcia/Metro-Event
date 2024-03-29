@@ -15,11 +15,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Popover from '@mui/material/Popover';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
-
-import { useState,useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import { useSelector } from 'react-redux';
 
@@ -66,23 +68,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function DashBoardAppbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
- 
+  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null); // State for notification popover
+  const [notifications, setNotifications] = useState([]);
 
   const location = useLocation();
 
   const [user, setUser] = useState(location.state?.username || '');
   const [auth, setIsAuth] = useState(location.state?.isAuth || false);
 
+<<<<<<< HEAD
 
 
   //REDUX
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const username = useSelector(state => state.auth.username);
 
+=======
+>>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isNotificationOpen = Boolean(notificationAnchorEl); // Check if notification popover is open
+
   const navigate = useNavigate();
 
+<<<<<<< HEAD
 
   // useEffect(() => {
   //   setUser(location.state.username);
@@ -93,16 +102,23 @@ export default function DashBoardAppbar() {
   }
 
 
+=======
+>>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
   useEffect(() => {
     printInfo();
     if (!isLoggedIn || username === "") {
       navigate("/");
     }
+<<<<<<< HEAD
   }, []);
   
+=======
+  }, [auth, user]);
+>>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+    console.log(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -116,6 +132,22 @@ export default function DashBoardAppbar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationClick = (event) => {      
+    setNotificationAnchorEl(event.currentTarget);
+    axios.get(`http://localhost:8081/api/notifications/${user}`)
+    .then((response) => {
+      setNotifications(response.data);
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching notifications:", error);
+    });
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationAnchorEl(null);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -192,6 +224,30 @@ export default function DashBoardAppbar() {
     </Menu>
   );
 
+  const notificationPopoverId = 'notification-popover';
+  const renderNotificationPopover = (
+    <Popover
+      id={notificationPopoverId}
+      open={isNotificationOpen}
+      anchorEl={notificationAnchorEl}
+      onClose={handleNotificationClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+    >
+      <List>
+      {notifications.map(notification => (
+        <ListItem key={notification.notification_id}>{notification.text}</ListItem>
+      ))}
+      </List>
+    </Popover>
+  );
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -232,7 +288,8 @@ export default function DashBoardAppbar() {
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
-              color="inherit" 
+              color="inherit"
+              onClick={handleNotificationClick} // Open notification popover on click
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
@@ -266,6 +323,7 @@ export default function DashBoardAppbar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {renderNotificationPopover} {/* Render the notification popover */}
       <main>
         <Outlet/>
       </main>

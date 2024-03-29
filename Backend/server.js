@@ -165,6 +165,7 @@ app.post('/api/upvoteEvent', (req, res) => {
     });
 });
 
+<<<<<<< HEAD
 app.post('/api/requestEventJoin', (req, res) => {
     const eventId = req.body.event_id;
     const username = req.body.username;
@@ -396,6 +397,48 @@ app.post('/api/cancelEvent', (req, res) => {
     });
   });
 
+=======
+// Signup endpoint
+app.post("/signup", (req, res) => {
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const email = req.body.email;
+    const password = req.body.password;
+
+    db.query("CALL registerUser(?, ?)", [firstname, password],
+        (err, result) => {
+            if(err) {
+                console.error("Error registering user:", err);
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                if(result.length > 0) {
+                    console.log("Registration success");
+                    res.json(result);
+                } else {
+                    res.status(401).json({ message: "All inputs must be valid" });
+                }
+            }
+        }
+    );
+});
+
+//Endpoint for fetching notifications
+app.get('/api/notifications/:username', (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+
+    db.query("SELECT * FROM notification WHERE username = ?", [username], (error, results) => {
+        if(error){
+            console.error('Error fetching notifs:', error);
+            res.status(500).json({error: 'Error fetching notifs'});
+            return;
+        }
+        const notifications = results;
+        res.json(notifications);
+    });
+});
+
+>>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
 app.listen(8081, () => {
     console.log("Server listening on port 8081");
 });
