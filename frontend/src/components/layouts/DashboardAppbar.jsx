@@ -76,22 +76,18 @@ export default function DashBoardAppbar() {
   const [user, setUser] = useState(location.state?.username || '');
   const [auth, setIsAuth] = useState(location.state?.isAuth || false);
 
-<<<<<<< HEAD
 
 
   //REDUX
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const username = useSelector(state => state.auth.username);
 
-=======
->>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isNotificationOpen = Boolean(notificationAnchorEl); // Check if notification popover is open
 
   const navigate = useNavigate();
 
-<<<<<<< HEAD
 
   // useEffect(() => {
   //   setUser(location.state.username);
@@ -102,19 +98,13 @@ export default function DashBoardAppbar() {
   }
 
 
-=======
->>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
   useEffect(() => {
     printInfo();
     if (!isLoggedIn || username === "") {
       navigate("/");
     }
-<<<<<<< HEAD
   }, []);
   
-=======
-  }, [auth, user]);
->>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
