@@ -11,6 +11,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
+import { login } from '../../../state/action';
+import { useDispatch } from 'react-redux';
 
 
 //REACT ROUTER
@@ -39,6 +41,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if(loginStatus === null){
@@ -48,7 +51,7 @@ export default function SignIn() {
 
 
 
-  const login = (event) => {
+  const handleLogin = (event) => {
     event.preventDefault();
     
     axios.post("http://localhost:8081/login", {
@@ -64,6 +67,7 @@ export default function SignIn() {
       }else{
         //diri ang success 
         setLoginStatus(response.data[0].username);
+        dispatch(login(username, password));
         navigate('dashboard', {state: {
           username: username,
           isAuth: true
@@ -95,7 +99,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={login}>
+          <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleLogin}>
             <TextField
               margin="normal"
               required

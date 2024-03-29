@@ -1,4 +1,9 @@
 import './App.css';
+import { Provider } from 'react-redux';
+import{ createStore, combineReducers } from 'redux';
+import {authReducer} from './state/reducer';
+
+
 
 import { 
   createBrowserRouter,
@@ -12,10 +17,15 @@ import SignUp from './components/pages/login_register/SignUp';
 import SignIn from './components/pages/login_register/SignIn';
 import EventContainer from './components/pages/home/EventContainer';
 import DashBoardAppbar from './components/layouts/DashboardAppbar';
+import EventList from './components/pages/home/EventList';
+import IconBreadcrumbs from './components/pages/user/IconBreadcrumbs';
 
 
+const rootReducer = combineReducers({
+  auth: authReducer
+})
 
-
+const store = createStore(rootReducer);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +37,15 @@ const router = createBrowserRouter(
           <Route path="event" element={<EventContainer />} />
         </Route>
         <Route path="dashboard" element={<DashBoardAppbar/>}>
-          <Route path element={<EventContainer />} />
+          <Route element={<IconBreadcrumbs />}>
+
+            <Route index element={<EventList option={1}/> }/>
+            <Route path="my" element={<EventList option={3}/> }/>
+            <Route path="joined" element={<EventList option={2}/> }/>
+            <Route path="requested"  element={<EventList option={4}/>}/>
+            {/* <Route path=  element={}/> */}
+            
+          </Route>
         </Route>
     </Route>
   
@@ -37,7 +55,9 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </>
   );
 }

@@ -21,6 +21,8 @@ import { useState,useEffect } from 'react';
 
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -72,19 +74,31 @@ export default function DashBoardAppbar() {
   const [auth, setIsAuth] = useState(location.state?.isAuth || false);
 
 
+
+  //REDUX
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const username = useSelector(state => state.auth.username);
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const navigate = useNavigate();
 
 
-  
-  
+  // useEffect(() => {
+  //   setUser(location.state.username);
+  //   setIsAuth(location.state.isAuth);    
+  // })
+  function printInfo() {
+    console.log(username + " => " + isLoggedIn);
+  }
+
+
   useEffect(() => {
-    console.log(user + " => " + auth);
-    if (!auth || user === "") {
+    printInfo();
+    if (!isLoggedIn || username === "") {
       navigate("/");
     }
-  }, [auth, user]);
+  }, []);
   
 
   const handleProfileMenuOpen = (event) => {

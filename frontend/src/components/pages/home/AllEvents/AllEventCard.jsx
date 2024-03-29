@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-const AllEventCard = ({ handleClickOpen, eventDetails }) => {
+const AllEventCard = ({ eventDetails,user }) => {
   const { event_id, event_date, event_location, event_name, event_organizer, event_status } = eventDetails;
   const date = new Date(event_date);
   const formattedDate = date.toLocaleDateString(); // Format the date as a string
@@ -38,14 +38,30 @@ const AllEventCard = ({ handleClickOpen, eventDetails }) => {
 
     axios.post('http://localhost:8081/api/upvoteEvent', {
         event_id: event_id,
-        username: username
+        username: user
     })
     .then(response => {
-        alert(response.data.message)
+        alert(response.data.message);
     })
     .catch(error => {
         console.error('Error upvoting event:', error);
     });
+};
+
+const handleJoinButton = () => {
+  const requestData = {
+    event_id: event_id, 
+    username: user 
+  };
+  axios.post('http://localhost:8081/api/requestEventJoin', requestData)
+  .then(response => {
+    // Handle the response from the API
+    // alert(response.data.message);
+    console.log("unliiiiiimeted");
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 };
 
   return (
@@ -86,12 +102,12 @@ const AllEventCard = ({ handleClickOpen, eventDetails }) => {
         </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
-      <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }} onClick={() => handleUpvote()}>
+        <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }} onClick={() => handleUpvote()}>
           <FavoriteBorder />
           {upvotes}
         </IconButton>
-        <Button variant="outlined" color="neutral" onClick={handleClickOpen}>
-          Join
+        <Button variant="outlined" color="neutral" onClick={() =>{handleJoinButton();}}>
+          Request to Join
         </Button>
       </CardActions>
     </Card>

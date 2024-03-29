@@ -8,7 +8,23 @@ import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 
-const GiveAdminCard = ({ handleClickOpen }) => {
+const GiveAdminCard = ({ userDetails }) => {
+  const { username, user_type } = userDetails
+
+  const handleAdminButton = () => {
+    const requestData = {
+      request_id: request_id, 
+    };
+    axios.post('http://localhost:8081/api/makeAdmin', requestData)
+    .then(response => {
+      // Handle the response from the API
+      alert(response.data.message);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
   return (
     <Card
       variant="outlined"
@@ -28,10 +44,15 @@ const GiveAdminCard = ({ handleClickOpen }) => {
       >
       </Box>
       <CardContent>
-        <Typography level="title-lg">Username</Typography>
+        <Typography level="body-sm">
+          Username: {username}
+        </Typography>
+        <Typography level="body-sm">
+          User Type: {user_type}
+        </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
-        <Button variant="outlined" color="neutral" onClick={handleClickOpen}>
+        <Button variant="outlined" color="neutral" onClick={handleAdminButton}>
           Make Admin
         </Button>
       </CardActions>

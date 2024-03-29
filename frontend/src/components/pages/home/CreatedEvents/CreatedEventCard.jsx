@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/joy/Avatar';
+import AvatarGroup from '@mui/joy/AvatarGroup';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
@@ -8,14 +9,80 @@ import CardActions from '@mui/joy/CardActions';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import ParticipantsDialog from './ParticipantsDialog'; // Assuming you'll create this component
+import RequestDialog from './RequestsDialog'; // Assuming you'll create this component
+import CancelDialog from './CancelDialog';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-const CreatedEventCard = ({ handleClickOpen }) => {
+
+const CreatedEventCard = ({ eventDetails }) => {
+  const { event_id, event_date, event_location, event_name, event_organizer, event_status } = eventDetails;
+  const date = new Date(event_date);
+  const formattedDate = date.toLocaleDateString(); // Format the date as a string
+  const [upvotes, setUpvotes] = useState(0);
+  const [openParticipantsDialog, setOpenParticipantsDialog] = React.useState(false);
+  const [openRequestDialog, setOpenRequestDialog] = React.useState(false);
+  const [participantsData, setParticipantsData] = useState(null);
+
+  const handleParticipantsDialogOpen = () => {
+    const requestData = {
+      event_id: event_id, 
+    };
+    axios.post('http://localhost:8081/api/listParticipantsInEvent', requestData)
+    .then(response => {
+      // Handle the response from the API
+      setParticipantsData(response.data);
+      setOpenParticipantsDialog(true);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
+  const handleParticipantsDialogClose = () => {
+    setOpenParticipantsDialog(false);
+  };
+
+  const handleRequestDialogOpen = () => {
+    const requestData = {
+      event_id: event_id, 
+    };
+    axios.post('http://localhost:8081/api/listEventJoinRequests', requestData)
+    .then(response => {
+      // Handle the response from the API
+      setParticipantsData(response.data);
+      setOpenRequestDialog(true);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
+  const handleRequestDialogClose = () => {
+    setOpenRequestDialog(false);
+  };
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8081/api/upvotecount', {
+        params: {
+          event_id: event_id,
+        },
+      })
+      .then((response) => {
+        setUpvotes(response.data.upvotes);
+      })
+      .catch((error) => {
+        console.error('Error fetching upvote count:', error);
+      });
+  }, [event_id]); // Include event_id in the dependency array
+
   return (
     <Card
       variant="outlined"
       sx={{
-        width: 360,
-        // to make the card resizable
+        width: 400,
         overflow: 'auto',
         resize: 'horizontal',
       }}
@@ -30,22 +97,39 @@ const CreatedEventCard = ({ handleClickOpen }) => {
         <Avatar src="./josiah.png" size="lg" />
       </Box>
       <CardContent>
-        <Typography level="title-lg">NYC Event</Typography>
-        <Typography level="body-sm">
-          We are a community of developers prepping for coding interviews,
-          participate, chat with others and get better at interviewing.
-          Sponsored by Zabdiel.
-        </Typography>
+        <Typography level="title-lg">{event_name}</Typography>
+          <Typography level="body-sm">
+            Event ID: {event_id}
+          </Typography>
+          <Typography level="body-sm">
+            Date: {formattedDate}
+          </Typography>
+          <Typography level="body-sm">
+            Location: {event_location}
+          </Typography>
+          <Typography level="body-sm">
+            Organizer: {event_organizer}
+          </Typography>
+          <Typography level="body-sm">
+           Status: {event_status}
+          </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
         <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
           <FavoriteBorder />
-          69
         </IconButton>
-        <Button variant="outlined" color="neutral" onClick={handleClickOpen}>
-          Cancel
+        <Button variant="solid" color="primary" onClick={handleRequestDialogOpen}>
+          Requests
         </Button>
+        <Button variant="solid" color="primary" onClick={handleParticipantsDialogOpen}>
+          Participants
+        </Button>
+        <CancelDialog />
       </CardActions>
+
+      <ParticipantsDialog open={openParticipantsDialog} onClose={handleParticipantsDialogClose} participantsData={participantsData} />
+      <RequestDialog open={openRequestDialog} onClose={handleRequestDialogClose} participantsData={participantsData} />
+      
     </Card>
   );
 }

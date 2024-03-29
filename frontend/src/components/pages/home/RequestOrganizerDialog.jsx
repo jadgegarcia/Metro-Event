@@ -8,7 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from '@mui/material';
 
-export default function EventFormDialog() {
+
+export default function RequestOrganizerDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
