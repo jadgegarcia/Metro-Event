@@ -1,4 +1,4 @@
-import * as React from 'react';
+      import * as React from 'react';
 // import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
@@ -52,7 +52,7 @@ export default function IconBreadcrumbs() {
   return (
     <>
     <div className="breadcrumbs-container" role="presentation">
-      <Breadcrumbs aria-label="breadcrumb" role="presentation">
+      <Breadcrumbs aria-label="breadcrumb">
           {type !== "admin" && 
             <NavLink 
               to='./' 
@@ -82,7 +82,7 @@ export default function IconBreadcrumbs() {
                 }}
             >
               <span className={activeLink === 4 ? "active" : ""}>Requested Events</span></NavLink>}
-          {type === "organizer" &&
+          {type === "Organizer" &&
             <NavLink 
               to="my" 
               className="link"
@@ -108,9 +108,21 @@ export default function IconBreadcrumbs() {
                 <span className={activeLink === 6 ? "active" : ""}>User List</span></NavLink>}
           {/* <a onClick={() => {setLink1(true)}}>All Events</a>
           <a>Joined Events</a> */}
+                
+          {type === "user" && 
+            <NavLink 
+              to="request-organizer" 
+              className="link"
+              onClick={() => {handleClick(6)
+              }}
+            >
+              <span className={activeLink ===  7 ? "active" : ""}>Request to Be Organizer</span>
+            </NavLink>
+          }
+              
       </Breadcrumbs>
     </div>
-    <Outlet/>
+    <Outlet/> 
     </>
   );
 }

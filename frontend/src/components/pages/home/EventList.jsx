@@ -25,7 +25,11 @@ const EventList = () => {
   const [requested, setRequestedEvents] = useState([]);
   const [requestOrganizer, setRequestOrganizer] = useState([]);
   const [giveAdmin, setGiveAdmin] = useState([]);
-  
+  const [refresher, setRefresher] = useState(0);
+  const incrementRefresher = () => {
+    setRefresher(prevRefresher => prevRefresher + 1);
+  };
+
   //REDUX
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const username = useSelector(state => state.auth.username);
@@ -102,22 +106,26 @@ const EventList = () => {
       });
     }
 
-  }, [op]); // Empty dependency array ensures the effect runs only once on component mount
+  }, [op,refresher]); // Empty dependency array ensures the effect runs only once on component mount
   
   return (
     <div className='eventlist-container'>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '20px',
+          justifyContent: 'center',
+          alignContent: 'center'}}>
         {/* <Grid container sx={{ display: 'flex', justifyContent: 'center', margin: '20px' }}>
         <IconBreadcrumbs />
         <FormDialog />
         </Grid> */}
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 13 }} sx={{ justifyContent: 'center',  }}>
+        {/* <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 13 }} sx={{ justifyContent: 'center',  }}> */}
           
           {/* ALL EVENTS */}
           {(op === 1 || op === 0) && type !== 'admin' && (
             events.map((event, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
-                <AllEventCard eventDetails={event} user={username} />
+                <AllEventCard eventDetails={event} user={username} onIncrementRefresher={incrementRefresher}/>
               </Grid>
             ))
           )}
@@ -172,7 +180,7 @@ const EventList = () => {
             ))
           )}
           
-        </Grid>
+        {/* </Grid> */}
       </Box>
     </div>
   );

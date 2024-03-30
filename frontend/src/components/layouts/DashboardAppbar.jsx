@@ -274,7 +274,7 @@ export default function DashBoardAppbar() {
               color="inherit"
               onClick={handleNotificationClick} // Open notification popover on click
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={notifications.length} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>

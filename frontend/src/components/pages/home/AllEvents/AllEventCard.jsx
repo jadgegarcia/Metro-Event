@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-const AllEventCard = ({ eventDetails,user }) => {
+const AllEventCard = ({ eventDetails,user,onIncrementRefresher={incrementRefresher} }) => {
   const { event_id, event_date, event_location, event_name, event_organizer, event_status } = eventDetails;
   const date = new Date(event_date);
   const formattedDate = date.toLocaleDateString(); // Format the date as a string
@@ -61,6 +61,7 @@ const handleJoinButton = () => {
   .then(response => {
     // Handle the response from the API
     alert(response.data.message);
+    incrementRefresher();
     console.log("unliiiiiimeted");
   })
   .catch(error => {
@@ -72,10 +73,9 @@ const handleJoinButton = () => {
     <Card
       variant="outlined"
       sx={{
-        width: 360,
+        width: '350px',
         // to make the card resizable
         overflow: 'auto',  
-        resize: 'horizontal',
       }}
     >
       <Box

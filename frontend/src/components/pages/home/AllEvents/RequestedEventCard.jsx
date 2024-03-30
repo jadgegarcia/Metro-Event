@@ -59,7 +59,6 @@ const RequestedEventCard = ({ eventDetails, user }) => {
         width: 360,
         // to make the card resizable
         overflow: 'auto',  
-        resize: 'horizontal',
       }}
     >
       <Box

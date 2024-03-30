@@ -15,7 +15,7 @@ const RequestsDialog = ({ open, onClose, participantsData }) => {
     const participantData = {
       request_id: participant.request_id, // Access username directly from participant
     };
-    axios.post('http://localhost:8081/api/acceptJoinRequest', participantData)
+    axios.get('http://localhost:8081/api/acceptJoinRequest', participantData)
     .then(response => {
       // Handle the response from the API
       alert(response.data.message);
@@ -31,7 +31,7 @@ const RequestsDialog = ({ open, onClose, participantsData }) => {
     const participantData = {
       request_id: participant.request_id, // Access username directly from participant
     };
-    axios.post('http://localhost:8081/api/denyEventJoinRequest', participantData)
+    axios.get('http://localhost:8081/api/denyEventJoinRequest', participantData)
     .then(response => {
       // Handle the response from the API
       alert(response.data.message);
@@ -45,7 +45,7 @@ const RequestsDialog = ({ open, onClose, participantsData }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Requests</DialogTitle>
       <DialogContent>
-        {participantsData.map((participant, index) => (
+        {participantsData && participantsData.map((participant, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', border: '1px solid #ccc', paddingBottom: '12px', borderRadius: '5px', padding: '16px', margin: '14px 0' }}>
             <Typography style={{ flex: 1, marginRight: '90px' }}>
               Username: {participant.username}

@@ -37,7 +37,7 @@ export default function CancelDialog( {eventDetails} ) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" size='small' onClick={handleClickOpen}>
         Cancel
       </Button>
       <Dialog

@@ -21,7 +21,7 @@ const PartcipantsDialog = ({ open, onClose, participantsData }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Requests</DialogTitle>
       <DialogContent>
-        {participantsData.map((participant, index) => (
+        {participantsData && participantsData.map((participant, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', border: '1px solid #ccc', paddingBottom: '12px', borderRadius: '5px', padding: '16px', margin: '14px 0' }}>
             <Typography style={{ flex: 1, marginRight: '90px' }}>
               Username: {participant.username}

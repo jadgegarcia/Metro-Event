@@ -22,21 +22,23 @@ const CreatedEventCard = ({ eventDetails }) => {
   const formattedDate = date.toLocaleDateString(); // Format the date as a string
   const [openParticipantsDialog, setOpenParticipantsDialog] = React.useState(false);
   const [openRequestDialog, setOpenRequestDialog] = React.useState(false);
-  const [participantsData, setParticipantsData] = useState(null);
+  const [participantsData, setParticipantsData] = React.useState(null);
 
   const handleParticipantsDialogOpen = () => {
     const requestData = {
       event_id: event_id, 
     };
-    axios.post('http://localhost:8081/api/listParticipantsInEvent', requestData)
+    axios.get('http://localhost:8081/api/listParticipantsInEvent', requestData)
     .then(response => {
-      // Handle the response from the API
-      setParticipantsData(response.data);
-      setOpenParticipantsDialog(true);
+      // Check if participants data is null
+      if (Object.keys(response.data).length > 0) {
+        setParticipantsData(response.data);
+        setOpenParticipantsDialog(true);
+      } else {
+        // Participants data is null, display an alert message
+        alert('There are currently no participants in the event.');
+      }
     })
-    .catch(error => {
-      console.error('Error:', error);
-    });
   };
 
   const handleParticipantsDialogClose = () => {
@@ -47,11 +49,16 @@ const CreatedEventCard = ({ eventDetails }) => {
     const requestData = {
       event_id: event_id, 
     };
-    axios.post('http://localhost:8081/api/listEventJoinRequests', requestData)
+    axios.get('http://localhost:8081/api/listEventJoinRequests', requestData)
     .then(response => {
-      // Handle the response from the API
-      setParticipantsData(response.data);
-      setOpenRequestDialog(true);
+      // Check if participants data is null
+      if (Object.keys(response.data).length > 0) {
+        setOpenRequestDialog(response.data);
+        openRequestDialog(true);
+      } else {
+        // Participants data is null, display an alert message
+        alert('There are currently no participants who wish to join the event.');
+      }
     })
     .catch(error => {
       console.error('Error:', error);
@@ -67,14 +74,14 @@ const CreatedEventCard = ({ eventDetails }) => {
     <Card
       variant="outlined"
       sx={{
-        width: 400,
+        width: '350px',
         overflow: 'auto',
-        resize: 'horizontal',
+        height: '300px',
+        marginLeft: '10px',
       }}
     >
       <Box
         sx={{
-          display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}
@@ -100,16 +107,20 @@ const CreatedEventCard = ({ eventDetails }) => {
           </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
-        <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
-          <FavoriteBorder />
-        </IconButton>
-        <Button variant="solid" color="primary" onClick={handleRequestDialogOpen}>
-          Requests
-        </Button>
-        <Button variant="solid" color="primary" onClick={handleParticipantsDialogOpen}>
-          Participants
-        </Button>
-        <CancelDialog eventDetails={eventDetails}/>
+        {event_status !== 'Cancelled' && (
+          <>
+            <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
+             <FavoriteBorder />
+            </IconButton>
+            <Button variant="solid" color="primary" size='small' onClick={handleRequestDialogOpen}>
+              Requests
+            </Button>
+            <Button variant="solid" color="primary" size='small' onClick={handleParticipantsDialogOpen}>
+              Participants
+            </Button>
+            <CancelDialog eventDetails={eventDetails}/>
+          </>
+        )}
       </CardActions>
 
       <ParticipantsDialog open={openParticipantsDialog} onClose={handleParticipantsDialogClose} participantsData={participantsData} />

@@ -239,6 +239,7 @@ app.post('/api/requestToBeOrganizer', (req, res) => {
     db.query('CALL createOrganizerRequest(?)', [username], (error, results) => {
         if (error) {
             console.error('Error executing stored procedure:', error);
+            console.info(username);
             res.status(500).json({ error: 'Error executing stored procedure' });
             return;
         }
@@ -413,6 +414,7 @@ app.get('/api/listParticipantsInEvent', (req, res) => {
       res.json(events);
     });
 });
+
 app.post('/api/cancelEvent', (req, res) => {
     const event_id = req.body.event_id;
   console.log(event_id)

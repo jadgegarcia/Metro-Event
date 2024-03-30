@@ -19,6 +19,8 @@ import EventContainer from './components/pages/home/EventContainer';
 import DashBoardAppbar from './components/layouts/DashboardAppbar';
 import EventList from './components/pages/home/EventList';
 import IconBreadcrumbs from './components/pages/user/IconBreadcrumbs';
+import RequestOrganizerCard from './components/pages/home/AdminOrganizer/RequestOrganizerCard';
+import RequestOrganizerDialog from './components/pages/home/RequestOrganizerDialog';
 
 
 const rootReducer = combineReducers({
@@ -45,6 +47,7 @@ const router = createBrowserRouter(
             <Route path="joined" element={<EventList/> }/>
             <Route path="requested"  element={<EventList/>}/>
             <Route path="admin" element={<EventList/>} />
+            <Route path="request-organizer" element={<RequestOrganizerDialog/>}/>
             {/* <Route path=  element={}/> */}
             
           </Route>

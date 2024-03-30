@@ -7,24 +7,50 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from '@mui/material';
+import { Navigate, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 
-export default function RequestOrganizerDialog() {
-  const [open, setOpen] = React.useState(false);
+export default function RequestOrganizerDialog({}) {
+  const [open, setOpen] = React.useState(true);
+  const [sendRequest, setSendRequest] = React.useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = React.useState(location.state?.username || '');
+
+  const handleSendRequest = () => {
+    // Handle accept action
+    console.log(`Accepted request`);
+    const participantData = {
+      username: user, // Access username directly from participant
+    };
+    axios.post('http://localhost:8081/api/requestToBeOrganizer', participantData)
+    .then(response => {
+      // Handle the response from the API
+      alert(response.data.message);
+      console.info(user)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    console.log("NI ari na sya");
+    navigate('..');
     setOpen(false);
+    
   };
 
   return (
     <React.Fragment>
-      <Link onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
+      {/* <Link onClick={handleClickOpen} style={{ cursor: 'pointer', color: 'black', textDecoration: 'none' }}>
         Request to be an Organizer
-      </Link>
+      </Link> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -47,8 +73,8 @@ export default function RequestOrganizerDialog() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Back</Button>
-          <Button type="submit">Request</Button>
+          <Button onClick={() => {handleClose()}}>Back</Button>
+          <Button type="submit" onClick={() => {handleSendRequest()}}>Request</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

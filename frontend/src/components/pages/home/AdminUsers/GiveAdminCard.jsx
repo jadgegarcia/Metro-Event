@@ -30,10 +30,9 @@ const GiveAdminCard = ({ userDetails }) => {
     <Card
       variant="outlined"
       sx={{
-        width: 320,
+        width: '350px',
         // to make the card resizable
         overflow: 'auto',
-        resize: 'horizontal',
       }}
     >
       <Box
