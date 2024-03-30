@@ -71,7 +71,8 @@ export default function SignIn() {
         dispatch(login(username, password, response.data[0].user_type));
         navigate('dashboard', {state: {
           username: username,
-          isAuth: true
+          isAuth: true,
+          usertype: response.data[0].user_type,
         }});
         return;
       }

@@ -28,7 +28,8 @@ export default function IconBreadcrumbs() {
   function handleClick(option) {
     // event.preventDefault();
     setActiveLink(option);
-    console.info('You clicked a breadcrumb.');
+    console.info(activeLink);
+    console.info(type);
     dispatch(setEventOption(option));
   }
 
@@ -59,7 +60,6 @@ export default function IconBreadcrumbs() {
               className="link"
               onClick={() => {
                 handleClick(1); 
-                
               }}
             >
               <span className={activeLink === 1 ? "active" : ""} >All Event</span>
@@ -82,7 +82,7 @@ export default function IconBreadcrumbs() {
                 }}
             >
               <span className={activeLink === 4 ? "active" : ""}>Requested Events</span></NavLink>}
-          {type === "organizer" &&
+          {type === "Organizer" &&
             <NavLink 
               to="my" 
               className="link"
