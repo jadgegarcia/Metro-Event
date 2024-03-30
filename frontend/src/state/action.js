@@ -1,7 +1,7 @@
 // actions/authActions.js
-  export const login = (username, password) => ({
+  export const login = (username, password, userType) => ({
     type: 'LOGIN',
-    payload: { username, password }
+    payload: { username, password, userType }
   });
   
   export const logout = () => ({

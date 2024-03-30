@@ -35,34 +35,18 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-<<<<<<< HEAD
   const [username, setUsername] = useState('');
-=======
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [email, setEmail] = useState('');
->>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
   const [password, setPassword] = useState('');
   
   const signup = (event) => {
     event.preventDefault();
     
     axios.post("http://localhost:8081/signup", {
-<<<<<<< HEAD
       username: username,
       password: password,
     })
     .then((response) => {
       console.log(response.data.username);
-=======
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      password: password,
-    })
-    .then((response) => {
-      console.log(response.data.firstname);
->>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
       alert("Registration successful");
     })
     .catch((error) => {
@@ -118,19 +102,11 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-<<<<<<< HEAD
                   id="username"
                   label="Username"
                   name="username"
                   autoComplete="Username"
                   onChange={(e) => {setUsername(e.target.value)}}
-=======
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => {setEmail(e.target.value)}}
->>>>>>> 07d1d6cade07bdd3f4f6deed6856663621d4f4d4
                 />
               </Grid>
               <Grid item xs={12}>

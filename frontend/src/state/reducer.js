@@ -2,7 +2,8 @@
   const initialState = {
     isLoggedIn: false,
     username: '',
-    password: ''
+    password: '',
+    userType: ''
   };
   
   export function authReducer(state = initialState, action) {
@@ -12,7 +13,8 @@
           ...state,
           isLoggedIn: true,
           username: action.payload.username,
-          password: action.payload.password
+          password: action.payload.password,
+          userType: action.payload.userType
         };
       case 'LOGOUT':
         return initialState;

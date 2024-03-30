@@ -20,7 +20,6 @@ const CreatedEventCard = ({ eventDetails }) => {
   const { event_id, event_date, event_location, event_name, event_organizer, event_status } = eventDetails;
   const date = new Date(event_date);
   const formattedDate = date.toLocaleDateString(); // Format the date as a string
-  const [upvotes, setUpvotes] = useState(0);
   const [openParticipantsDialog, setOpenParticipantsDialog] = React.useState(false);
   const [openRequestDialog, setOpenRequestDialog] = React.useState(false);
   const [participantsData, setParticipantsData] = useState(null);
@@ -63,20 +62,6 @@ const CreatedEventCard = ({ eventDetails }) => {
     setOpenRequestDialog(false);
   };
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:8081/api/upvotecount', {
-        params: {
-          event_id: event_id,
-        },
-      })
-      .then((response) => {
-        setUpvotes(response.data.upvotes);
-      })
-      .catch((error) => {
-        console.error('Error fetching upvote count:', error);
-      });
-  }, [event_id]); // Include event_id in the dependency array
 
   return (
     <Card
@@ -124,7 +109,7 @@ const CreatedEventCard = ({ eventDetails }) => {
         <Button variant="solid" color="primary" onClick={handleParticipantsDialogOpen}>
           Participants
         </Button>
-        <CancelDialog />
+        <CancelDialog eventDetails={eventDetails}/>
       </CardActions>
 
       <ParticipantsDialog open={openParticipantsDialog} onClose={handleParticipantsDialogClose} participantsData={participantsData} />

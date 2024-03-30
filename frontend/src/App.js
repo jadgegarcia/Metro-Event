@@ -2,7 +2,7 @@ import './App.css';
 import { Provider } from 'react-redux';
 import{ createStore, combineReducers } from 'redux';
 import {authReducer} from './state/reducer';
-
+import {eventReducer} from './state/eventReducer';
 
 
 import { 
@@ -22,7 +22,8 @@ import IconBreadcrumbs from './components/pages/user/IconBreadcrumbs';
 
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  event: eventReducer
 })
 
 const store = createStore(rootReducer);
@@ -39,10 +40,11 @@ const router = createBrowserRouter(
         <Route path="dashboard" element={<DashBoardAppbar/>}>
           <Route element={<IconBreadcrumbs />}>
 
-            <Route index element={<EventList option={1}/> }/>
-            <Route path="my" element={<EventList option={3}/> }/>
-            <Route path="joined" element={<EventList option={2}/> }/>
-            <Route path="requested"  element={<EventList option={4}/>}/>
+            <Route index element={<EventList/> }/>
+            <Route path="my" element={<EventList/> }/>
+            <Route path="joined" element={<EventList/> }/>
+            <Route path="requested"  element={<EventList/>}/>
+            <Route path="admin" element={<EventList/>} />
             {/* <Route path=  element={}/> */}
             
           </Route>

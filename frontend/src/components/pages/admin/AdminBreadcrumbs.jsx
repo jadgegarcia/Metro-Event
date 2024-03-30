@@ -6,28 +6,32 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 // import GrainIcon from '@mui/icons-material/Grain';
 import EventFormDialog from '../home/EventFormDialog';
 import RequestOrganizerDialog from '../home/RequestOrganizerDialog';
-import { NavLink, Outlet, useNavigation } from 'react-router-dom';
+import { NavLink, Outlet, useNavigation, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setEventOption } from '../../../state/eventAction';
 
-function handleClick(event) {
-  event.preventDefault();
-  console.info('You clicked a breadcrumb.');
-}
 
-export default function IconBreadcrumbs() {
-  const navigate = useNavigation();
+export default function AdminBreadcrumbs() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-  function handleEvent() {
-      navigate('/events');
+  const isAuth = useSelector(state => state.auth.isLoggedIn);
+  const type = useSelector(state => state.auth.userType);
+
+  function handleClick(option) {
+    // event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+    dispatch(setEventOption(option));
   }
-  function handleEvent() {
-    navigate('/my');
-}
+
   return (
     <>
-    <div className="breadcrumbs-container" role="presentation" onClick={handleClick}>
+    <div className="breadcrumbs-container" role="presentation">
       <Breadcrumbs aria-label="breadcrumb">
-        <NavLink to="joined">Organizer Request</NavLink>
-        <NavLink to="my">User List</NavLink>
+        <NavLink to="requestList"><span onClick={() => {handleClick(5)}} >Request List</span></NavLink>
+        <NavLink to="userList"><span onClick={() => {handleClick(6)}} > User List</span></NavLink>
       </Breadcrumbs>
     </div>
     <Outlet/>

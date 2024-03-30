@@ -17,7 +17,10 @@ const AllEventCard = ({ eventDetails,user }) => {
   const date = new Date(event_date);
   const formattedDate = date.toLocaleDateString(); // Format the date as a string
   const [upvotes, setUpvotes] = useState(0);
-
+  const [refresher, setRefresher] = useState(0);
+  const incrementRefresher = () => {
+    setRefresher(prevRefresher => prevRefresher + 1);
+  };
   useEffect(() => {
     axios
       .get('http://localhost:8081/api/upvotecount', {
@@ -31,7 +34,7 @@ const AllEventCard = ({ eventDetails,user }) => {
       .catch((error) => {
         console.error('Error fetching upvote count:', error);
       });
-  }, [event_id]); // Include event_id in the dependency array
+  }, [refresher]); // Include event_id in the dependency array
 
   const handleUpvote = () => {
     const username = 'noeljr'; // Example username
@@ -41,6 +44,7 @@ const AllEventCard = ({ eventDetails,user }) => {
         username: user
     })
     .then(response => {
+        incrementRefresher();
         alert(response.data.message);
     })
     .catch(error => {
@@ -56,7 +60,7 @@ const handleJoinButton = () => {
   axios.post('http://localhost:8081/api/requestEventJoin', requestData)
   .then(response => {
     // Handle the response from the API
-    // alert(response.data.message);
+    alert(response.data.message);
     console.log("unliiiiiimeted");
   })
   .catch(error => {

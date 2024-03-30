@@ -11,7 +11,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const JoinedEventCard = (eventDetails,user) => {
+const JoinedEventCard = ( {eventDetails,user} ) => {
   const { event_id, event_date, event_location, event_name, event_organizer, event_status } = eventDetails;
   const date = new Date(event_date);
   const formattedDate = date.toLocaleDateString(); // Format the date as a string
@@ -84,7 +84,7 @@ const JoinedEventCard = (eventDetails,user) => {
         </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
-        <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
+        <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }} onClick={() => handleUpvote()}>
           <FavoriteBorder />
           {upvotes}
         </IconButton>

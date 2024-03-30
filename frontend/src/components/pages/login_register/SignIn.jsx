@@ -66,8 +66,9 @@ export default function SignIn() {
         console.log(loginStatus);
       }else{
         //diri ang success 
-        setLoginStatus(response.data[0].username);
-        dispatch(login(username, password));
+        setLoginStatus(response.data[0]);
+        console.log("unsa ni " + response.data[0].user_type);
+        dispatch(login(username, password, response.data[0].user_type));
         navigate('dashboard', {state: {
           username: username,
           isAuth: true

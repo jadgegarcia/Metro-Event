@@ -36,12 +36,9 @@ export default function Appbar() {
                 </Typography>
 
 
-                {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Metro Event
-                </Typography> */}
-                <NavLink to="/">Login</NavLink>
-                <NavLink to="register">Register</NavLink>
-                <NavLink to="event">List</NavLink>
+                <NavLink to="/" className="appbar-link">Login</NavLink>
+                <NavLink to="register" className="appbar-link">Register</NavLink>
+                {/* <NavLink to="event" className="appbar-link">List</NavLink> */}
                 </Toolbar>
             </AppBar>
             </Box>

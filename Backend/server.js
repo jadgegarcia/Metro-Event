@@ -25,6 +25,7 @@ app.post("/login", (req, res) => {
             } else {
                 if(result.length > 0){
                     console.log("Successful")
+                    console.log(result[0]);
                     res.json(result);
                 } else {
                     res.status(401).json({ message: "Wrong username or password" });
@@ -70,7 +71,7 @@ app.get('/api/allevents', (req, res) => {
       }
       
       // Assuming the procedure returns a result set with event data
-      const events = results;
+      const events = results[0];
   
       res.json(events);
     });
@@ -102,17 +103,25 @@ app.get('/api/joinedevents', (req, res) => {
         console.error('Error executing stored procedure:', error);
         res.status(500).json({ error: 'Error executing stored procedure' });
         return;
+      } else {
+        if(results > 0) {
+            console.log("Joined Events");
+
+        } else {
+            console.log("No Joined events");
+        }
       }
       
       // Assuming the procedure returns a result set with event data
       const events = results[0];
+      console.log(events);
   
       res.json(events);
     });
 });
 
 app.get('/api/requestedevents', (req, res) => {
-    const username = req.query.username;
+    const { username } = req.query;
     console.log(username)
     // Call the countUpvotes() stored procedure with the event ID
     db.query('CALL listRequestedToJoinEvents(?)', [username], (error, results) => {
@@ -120,12 +129,35 @@ app.get('/api/requestedevents', (req, res) => {
             console.error('Error executing stored procedure:', error);
             res.status(500).json({ error: 'Error executing stored procedure' });
             return;
+        } else {
+            if(results.length > 0) {
+                console.log("Requested Events Successfully loaded");
+            } else {
+                console.log("No Requested Events");
+            }
+           
         }
 
         // Assuming the stored procedure returns a result set with upvote count
         const events = results[0];
+        console.log(events);
+        res.json(events);
+    });
+});
 
-        res.json({events});
+//Endpoint for fetching notifications
+app.get('/api/notifications/:username', (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+
+    db.query("SELECT * FROM notification WHERE username = ?", [username], (error, results) => {
+        if(error){
+            console.error('Error fetching notifs:', error);
+            res.status(500).json({error: 'Error fetching notifs'});
+            return;
+        }
+        const notifications = results;
+        res.json(notifications);
     });
 });
 
@@ -282,20 +314,20 @@ app.post("/create_event", (req, res) => {
         });
 });
 
-// app.post('/api/makeAdmin', (req, res) => {
-//     const username = req.body.username;
-//     console.log(username)
-//     //Calling the API
-//     axios.post('http://localhost:8081/api/makeAdmin', { username })
-//     .then(response => {
-//         alert('Response:', response.data);
-//         // Handle the response here
-//     })
-//     .catch(error => {
-//     console.error('Error:', error);
-//     // Handle errors here
-//   });
-// });
+app.post('/api/makeAdmin', (req, res) => {
+    const username = req.body.username;
+    //Calling the API
+    db.query("UPDATE user SET user_type = 'Administrator' WHERE username = ?", [username], 
+        (err, result) => {
+            if(err){
+                console.error("Error updating user type:", err);
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                console.log("User type updated successfully");
+                res.json({ message: "User type updated successfully" });
+            }
+        });
+    });
 
 app.get('/api/listUser', (req, res) => {
     // Call the listUser() procedure using the db connection

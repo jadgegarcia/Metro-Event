@@ -19,11 +19,13 @@ import Popover from '@mui/material/Popover';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 
+
+import { useSelector, useDispatch  } from 'react-redux';
+import { logout } from '../../state/action';
+
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-import { useSelector } from 'react-redux';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -76,35 +78,28 @@ export default function DashBoardAppbar() {
   const [user, setUser] = useState(location.state?.username || '');
   const [auth, setIsAuth] = useState(location.state?.isAuth || false);
 
-
-
-  //REDUX
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-  const username = useSelector(state => state.auth.username);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isNotificationOpen = Boolean(notificationAnchorEl); // Check if notification popover is open
 
   const navigate = useNavigate();
 
-
-  // useEffect(() => {
-  //   setUser(location.state.username);
-  //   setIsAuth(location.state.isAuth);    
-  // })
-  function printInfo() {
-    console.log(username + " => " + isLoggedIn);
-  }
+  //REDUX 
+  const type = useSelector(state => state.auth.userType);
+  let isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
-    printInfo();
-    if (!isLoggedIn || username === "") {
+    console.log(user + " => " + auth);
+    if (!isLoggedIn) {
       navigate("/");
     }
-  }, []);
-  
+
+    if(type === "admin") {
+      navigate("admin");
+    }
+  }, [isLoggedIn]);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -116,9 +111,14 @@ export default function DashBoardAppbar() {
   };
 
   const handleMenuClose = () => {
+    
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+  function handleLogout() {
+    dispatch(logout());
+    isLoggedIn = false;
+  }
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -158,7 +158,7 @@ export default function DashBoardAppbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -179,21 +179,14 @@ export default function DashBoardAppbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
+
       <MenuItem>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={notifications.length} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -255,9 +248,9 @@ export default function DashBoardAppbar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block', fontFamily: 'monospace', fontWeight: 700,  letterSpacing: '.3rem', } }}
           >
-            MUI
+            METRO EVENT
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -270,11 +263,11 @@ export default function DashBoardAppbar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"

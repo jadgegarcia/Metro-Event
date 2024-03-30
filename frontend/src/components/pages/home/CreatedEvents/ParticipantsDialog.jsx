@@ -6,7 +6,16 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const RequestsDialog = ({ open, onClose, participantsData }) => {
+const PartcipantsDialog = ({ open, onClose, participantsData }) => {
+
+  if (!participantsData) {
+    return null; 
+  }
+
+  // Check if participantsData is an array
+  if (!Array.isArray(participantsData)) {
+    return null; 
+  }
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -29,4 +38,4 @@ const RequestsDialog = ({ open, onClose, participantsData }) => {
   );
 };
 
-export default RequestsDialog;
+export default PartcipantsDialog;
