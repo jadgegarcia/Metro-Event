@@ -28,8 +28,6 @@ export default function IconBreadcrumbs() {
   function handleClick(option) {
     // event.preventDefault();
     setActiveLink(option);
-    console.info(activeLink);
-    console.info(type);
     dispatch(setEventOption(option));
   }
 
@@ -46,10 +44,10 @@ export default function IconBreadcrumbs() {
 
 
 // if user then breadcrumbs All Events / Joined Events / Request Organizer 
-//if user then can request to be an organizer through request organizer button or something and hide my events button
+// if user then can request to be an organizer through request organizer button or something and hide my events button
 
 // if organizer then breadcrumbs All Events / Joined Events / My Events
-//if organizer then hide request organizer button or something and show my events button
+// if organizer then hide request organizer button or something and show my events button
   return (
     <>
     <div className="breadcrumbs-container" role="presentation">
@@ -117,6 +115,17 @@ export default function IconBreadcrumbs() {
               }}
             >
               <span className={activeLink ===  7 ? "active" : ""}>Request to Be Organizer</span>
+            </NavLink>
+          }
+
+          {type === "Organizer" && 
+            <NavLink 
+              to="create-event" 
+              className="link"
+              onClick={() => {handleClick(7)
+              }}
+            >
+              <span className={activeLink ===  8 ? "active" : ""}>Create Event</span>
             </NavLink>
           }
               

@@ -21,6 +21,7 @@ import EventList from './components/pages/home/EventList';
 import IconBreadcrumbs from './components/pages/user/IconBreadcrumbs';
 import RequestOrganizerCard from './components/pages/home/AdminOrganizer/RequestOrganizerCard';
 import RequestOrganizerDialog from './components/pages/home/RequestOrganizerDialog';
+import EventFormDialog from './components/pages/home/EventFormDialog';
 
 
 const rootReducer = combineReducers({
@@ -47,9 +48,10 @@ const router = createBrowserRouter(
             <Route path="joined" element={<EventList/> }/>
             <Route path="requested"  element={<EventList/>}/>
             <Route path="admin" element={<EventList/>} />
-            <Route path="request-organizer" element={<RequestOrganizerDialog/>}/>
+            <Route path="request-organizer" element={<RequestOrganizerDialog />}/>
+            <Route path="create-event" element={<EventFormDialog/>} />
             {/* <Route path=  element={}/> */}
-            
+    
           </Route>
         </Route>
     </Route>

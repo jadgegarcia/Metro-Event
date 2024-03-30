@@ -11,7 +11,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import axios from 'axios';
 
 const RequestOrganizerCard = ({ requestDetails }) => {
-  const { request_id, username } = requestDetails
+  const { request_id, username, status } = requestDetails
 
   const handleDenyButton = () => {
     const requestData = {
@@ -31,7 +31,9 @@ const RequestOrganizerCard = ({ requestDetails }) => {
     const requestData = {
       request_id: request_id, 
     };
-    axios.post('http://localhost:8081/api/acceptOrganizerRequest', requestData)
+    axios.post('http://localhost:8081/api/acceptOrganizerRequest', {
+      request_id: request_id
+    })
     .then(response => {
       // Handle the response from the API
       alert(response.data.message);
@@ -69,10 +71,10 @@ const RequestOrganizerCard = ({ requestDetails }) => {
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
       <Button variant="outlined" color="neutral" onClick={handleDenyButton}>
-          Deny Organizer
+          Deny Request
         </Button>
         <Button variant="outlined" color="neutral" onClick={handleAcceptButton}>
-          Accept Organizer
+          Accept Request
         </Button>
       </CardActions>
     </Card>

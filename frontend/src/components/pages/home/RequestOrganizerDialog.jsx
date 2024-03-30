@@ -9,22 +9,28 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from '@mui/material';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
-
-export default function RequestOrganizerDialog({}) {
+export default function RequestOrganizerDialog() {
   const [open, setOpen] = React.useState(true);
   const [sendRequest, setSendRequest] = React.useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = React.useState(location.state?.username || '');
+  // const [user, setUser] = React.useState(location.state?.username || '');
+  const user = useSelector(state => state.auth.username);
+
 
   const handleSendRequest = () => {
     // Handle accept action
     console.log(`Accepted request`);
+    console.log("mao ni ang user " + user);
     const participantData = {
-      username: user, // Access username directly from participant
+      username: user // Access username directly from participant
     };
-    axios.post('http://localhost:8081/api/requestToBeOrganizer', participantData)
+    axios.post('http://localhost:8081/api/requestToBeOrganizer', {
+      username: user
+    })
     .then(response => {
       // Handle the response from the API
       alert(response.data.message);

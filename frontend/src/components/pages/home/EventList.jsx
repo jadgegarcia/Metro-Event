@@ -38,7 +38,6 @@ const EventList = () => {
 
 
   useEffect(() => {
-    console.log("This is the option = " + op);
     if((op === 1 || op === 0) && type !== "admin") {
       // Fetch events from API // allevents
       axios.get('http://localhost:8081/api/allevents', { params: {username: username} })

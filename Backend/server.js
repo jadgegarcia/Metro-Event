@@ -234,7 +234,7 @@ app.get('/api/requestOrganizer', (req, res) => {
 
 app.post('/api/requestToBeOrganizer', (req, res) => {
     const username = req.body.username;
-    console.log(username)
+    console.log("Sino and User? " + username)
     // Call the createOrganizerRequest procedure using the db connection
     db.query('CALL createOrganizerRequest(?)', [username], (error, results) => {
         if (error) {
@@ -266,6 +266,24 @@ app.post('/api/denyEventJoinRequest', (req, res) => {
     console.log(request_id)
     // Call the denyEventJoinRequest stored procedure with the request ID and username
     db.query('CALL denyEventJoinRequest(?)', [request_id], (error, results) => {
+        if (error) {
+            console.error('Error executing stored procedure:', error);
+            res.status(500).json({ error: 'Error executing stored procedure' });
+            return;
+        }
+
+        // Assuming the stored procedure returns a message indicating success or error
+        const message = results[0][0].Message;
+
+        res.json({ message });
+    });
+});
+
+app.post('/api/acceptOrganizerRequest', (req, res) => {
+    const request_id = req.body.request_id;
+    console.log(request_id)
+    // Call the denyOrganizerRequest stored procedure with the request ID and username
+    db.query('CALL acceptOrganizerRequest(?)', [request_id], (error, results) => {
         if (error) {
             console.error('Error executing stored procedure:', error);
             res.status(500).json({ error: 'Error executing stored procedure' });
@@ -318,7 +336,7 @@ app.post("/create_event", (req, res) => {
 app.post('/api/makeAdmin', (req, res) => {
     const username = req.body.username;
     //Calling the API
-    db.query("UPDATE user SET user_type = 'Administrator' WHERE username = ?", [username], 
+    db.query("UPDATE user SET user_type = 'admin' WHERE username = ?", [username], 
         (err, result) => {
             if(err){
                 console.error("Error updating user type:", err);

@@ -9,10 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from '@mui/material';
 import { useLocation } from 'react-router';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 export default function EventFormDialog() {
   const location = useLocation();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [user, setUser] = React.useState(location.state?.username || '');
   const [eventName, setEventName] = React.useState('');
   const [eventLocation, setLocation] = React.useState('');
@@ -26,9 +27,12 @@ export default function EventFormDialog() {
     setOpen(false);
   };
 
-  const createEvent = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    console.log("information: " + user + eventDate + eventLocation + eventName);
+  }, []);
 
+  const createEvent = () => {
+    
     axios.post("http://localhost:8081/create_event", {
       username: user,
       eventdate: eventDate,
@@ -51,9 +55,9 @@ export default function EventFormDialog() {
 
   return (
     <React.Fragment>
-      <Link onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
+      {/* <Link onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
         Create Event
-      </Link>
+      </Link> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -113,7 +117,7 @@ export default function EventFormDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createEvent}>Create</Button>
+          <Button onClick={() => {createEvent()}}>Create</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

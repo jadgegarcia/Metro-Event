@@ -52,9 +52,9 @@ const GiveAdminCard = ({ userDetails }) => {
         </Typography>
       </CardContent>
       <CardActions buttonFlex="0 1 120px">
-        <Button variant="outlined" color="neutral" onClick={handleAdminButton}>
-          Make Admin
-        </Button>
+            <Button variant="outlined" color="neutral" onClick={handleAdminButton}>
+              Make Admin
+            </Button>
       </CardActions>
     </Card>
   );
