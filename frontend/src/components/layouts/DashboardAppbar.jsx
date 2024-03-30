@@ -77,6 +77,7 @@ export default function DashBoardAppbar() {
 
   const [user, setUser] = useState(location.state?.username || '');
   const [auth, setIsAuth] = useState(location.state?.isAuth || false);
+  const [userType, setType] = useState(location.state?.usertype || '');
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -268,7 +269,7 @@ export default function DashBoardAppbar() {
                 <MailIcon />
               </Badge>
             </IconButton> */}
-            <IconButton
+            {userType !== 'admin' && <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -277,7 +278,7 @@ export default function DashBoardAppbar() {
               <Badge badgeContent={notifications.length} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton>}
             <IconButton
               size="large"
               edge="end"

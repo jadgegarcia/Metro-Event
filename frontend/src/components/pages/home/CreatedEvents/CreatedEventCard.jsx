@@ -30,6 +30,7 @@ const CreatedEventCard = ({ eventDetails }) => {
     };
     axios.get('http://localhost:8081/api/listParticipantsInEvent', requestData)
     .then(response => {
+<<<<<<< HEAD
       // Check if participants data is null
       if (Object.keys(response.data).length > 0) {
         setParticipantsData(response.data);
@@ -38,6 +39,13 @@ const CreatedEventCard = ({ eventDetails }) => {
         // Participants data is null, display an alert message
         alert('There are currently no participants in the event.');
       }
+=======
+      // Handle the response from the API
+      setParticipantsData(response.data);
+      console.info(Object.keys(response.data).length)
+      if(Object.keys(response.data).length > 0)
+        setOpenParticipantsDialog(true);
+>>>>>>> 7bd16f659912d8a1fd4fd91ec9fd01b5ab91a7e2
     })
   };
 
@@ -51,6 +59,7 @@ const CreatedEventCard = ({ eventDetails }) => {
     };
     axios.get('http://localhost:8081/api/listEventJoinRequests', requestData)
     .then(response => {
+<<<<<<< HEAD
       // Check if participants data is null
       if (Object.keys(response.data).length > 0) {
         setOpenRequestDialog(response.data);
@@ -59,6 +68,13 @@ const CreatedEventCard = ({ eventDetails }) => {
         // Participants data is null, display an alert message
         alert('There are currently no participants who wish to join the event.');
       }
+=======
+      // Handle the response from the API
+      setParticipantsData(response.data);
+      if(Object.keys(response.data).length > 0)
+        setOpenRequestDialog(true);
+      console.log(setParticipantsData);
+>>>>>>> 7bd16f659912d8a1fd4fd91ec9fd01b5ab91a7e2
     })
     .catch(error => {
       console.error('Error:', error);
@@ -112,10 +128,17 @@ const CreatedEventCard = ({ eventDetails }) => {
             <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
              <FavoriteBorder />
             </IconButton>
+<<<<<<< HEAD
             <Button variant="solid" color="primary" size='small' onClick={handleRequestDialogOpen}>
               Requests
             </Button>
             <Button variant="solid" color="primary" size='small' onClick={handleParticipantsDialogOpen}>
+=======
+            <Button variant="solid" color="primary" onClick={handleRequestDialogOpen}>
+              Requests
+            </Button>
+            <Button variant="solid" color="primary" onClick={handleParticipantsDialogOpen}>
+>>>>>>> 7bd16f659912d8a1fd4fd91ec9fd01b5ab91a7e2
               Participants
             </Button>
             <CancelDialog eventDetails={eventDetails}/>
